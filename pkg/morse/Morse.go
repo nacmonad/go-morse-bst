@@ -81,7 +81,7 @@ func (node *MorseNode) FindNodeByCode(cursorNode *MorseNode, code string) *Morse
 	isDot := code[cursorDepth] == '.'
 
 	if isDot {
-		return cursorNode.FindNodeByCode(cursorNode.Dot, code)
+		return cursorNode.Dot.FindNodeByCode(cursorNode.Dot, code)
 	}
 	return cursorNode.Dash.FindNodeByCode(cursorNode.Dash, code)
 
@@ -100,12 +100,12 @@ func (node *MorseNode) FindNodeByChar(cursorNode *MorseNode, val string) *MorseN
 	}
 
 	// Perform DFS on the Dot (left) node
-	if foundNode := node.FindNodeByChar(cursorNode.Dot, val); foundNode != nil {
+	if foundNode := cursorNode.FindNodeByChar(cursorNode.Dot, val); foundNode != nil {
 		return foundNode
 	}
 
 	// If not found in Dot, perform DFS on the Dash (right) node
-	return node.FindNodeByChar(cursorNode.Dash, val)
+	return cursorNode.FindNodeByChar(cursorNode.Dash, val)
 }
 
 //utils
