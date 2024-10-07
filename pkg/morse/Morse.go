@@ -1,6 +1,7 @@
 package morse
 
 import (
+	"fmt"
 	"sort"
 )
 
@@ -67,9 +68,6 @@ func (node *MorseNode) GetNextDash() *MorseNode {
 }
 
 func (node *MorseNode) FindNodeByCode(cursorNode *MorseNode, code string) *MorseNode {
-	// -..
-	// ^
-
 	// cursorDepth
 	cursorDepth := len(cursorNode.Code)
 
@@ -106,6 +104,44 @@ func (node *MorseNode) FindNodeByChar(cursorNode *MorseNode, val string) *MorseN
 
 	// If not found in Dot, perform DFS on the Dash (right) node
 	return cursorNode.FindNodeByChar(cursorNode.Dash, val)
+}
+
+// FindNodeByCharBFS performs a breadth-first search (BFS) to find a node by its value
+func (node *MorseNode) FindNodeByCharBFS(cursorNode *MorseNode, val string) *MorseNode {
+	// Base case: if the tree is empty
+	if cursorNode == nil {
+		return nil
+	}
+
+	// Initialize a queue with the root node
+	queue := []*MorseNode{cursorNode}
+
+	// While the queue is not empty, keep searching
+	for len(queue) > 0 {
+		// Dequeue the first node in the queue
+		currentNode := queue[0]
+		queue = queue[1:]
+
+		fmt.Printf("FindNodeByCharBFS\tcode:%s\tvalue:%s\n", currentNode.Code, currentNode.Value)
+
+		// Check if the current node's value matches the target value
+		if currentNode.Value == val {
+			return currentNode
+		}
+
+		// Add the Dot (left) node to the queue if it exists
+		if currentNode.Dot != nil {
+			queue = append(queue, currentNode.Dot)
+		}
+
+		// Add the Dash (right) node to the queue if it exists
+		if currentNode.Dash != nil {
+			queue = append(queue, currentNode.Dash)
+		}
+	}
+
+	// If we exhaust the queue and haven't found the node, return nil
+	return nil
 }
 
 //utils

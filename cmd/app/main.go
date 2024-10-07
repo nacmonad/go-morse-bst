@@ -16,6 +16,10 @@ func main() {
 	lookup_node2 := morseTree.FindNodeByChar(morseTree, lookup_char)
 	fmt.Printf("Lookup Code for %s: \t%s\n", lookup_char, lookup_node2.Code)
 
+	lookup_char3 := "Z"
+	lookup_node3 := morseTree.FindNodeByCharBFS(morseTree, lookup_char3)
+	fmt.Printf("Lookup (BFS) Code for %s: \t%s\n", lookup_char3, lookup_node3.Code)
+
 	// if lookup_node.Dash != nil {
 	// 	fmt.Println("Dash Value:", lookup_node.Dash.Value)
 	// }
